@@ -1,1 +1,96 @@
-Research Summary: Document Data Model (MongoDB)1. What is the Document Model and Why Does It Exist?The Document Data Model is a non-relational (NoSQL) database design that stores data as flexible, self-contained documents rather than rigid tables and rows. Typically, these documents are formatted in JSON-like structures (or BSON in MongoDB).We use document databases because modern applications handle complex, fast-changing data that doesn't always fit neatly into traditional rows and columns. It allows developers to build and scale applications faster by matching how data is represented in application code (like objects in JavaScript or Python) without needing complex table schemas.2. How is Data Represented? (Building Blocks)Unlike relational databases, document databases organize data using a different terminology and structure:Collection: Equivalent to a relational database "Table".Document: Equivalent to a relational database "Row" (each document can have its own unique fields).Field: Equivalent to a "Column/Value pair".Core Concept: Embedding vs. ReferencingOne of the most important concepts in document databases is how we handle relationships:Embedding (Nested Documents): Instead of spreading related data across multiple tables, we embed related information directly inside the main document (e.g., storing a user's address and profile list directly inside the user document). This makes read operations extremely fast because everything is fetched in a single query.Referencing: Storing references (IDs) to other documents when data is shared or too large, similar to traditional foreign keys.3. Basic CRUD Operations & MongoDB FeaturesTo interact with MongoDB, applications perform basic operations known as CRUD:Create: Inserting new documents into a collection (e.g., insert_one()).Read: Querying documents based on specific fields, including nested data (e.g., find() or find_one()).Update: Modifying existing documents or adding new elements to arrays inside documents (e.g., update_one()).Delete: Removing documents that are no longer needed (e.g., delete_one()).Distinctive Feature Explored in our POC:We utilized Nested Documents and Arrays, which allowed us to store complex structures (like user skills and profiles) inside a single document and query them efficiently without using SQL JOIN operations.4. Strengths and Typical Use CasesFlexible Schema: You can easily add or change fields without running a database migration.High Performance for Reads: Because related data is embedded together, retrieving a full record requires a single fast lookup.Best Use Cases: Perfect for Content Management Systems (CMS), e-commerce product catalogs, user profiles, and real-time analytics where data structures evolve frequently.5. Trade-offs and LimitationsLack of Strict Relationships: MongoDB does not enforce foreign key constraints automatically like SQL, meaning data consistency must be managed carefully by the application.Data Duplication: Embedding data can lead to duplicated information across documents, increasing storage usage if not designed properly.Complex Transactions: While MongoDB supports multi-document transactions, complex relational joins and heavy analytical queries are generally more difficult and less efficient than in relational databases.6. Comparison with Relational Databases (SQL)FeatureDocument Model (MongoDB)Relational Model (SQL)StructureFlexible (Schema-less)Rigid (Strict Tables & Schema)RelationshipsEmbedded documents or referencesForeign keys and JOIN operationsBest ForRapid development, changing data, fast readsComplex transactions, financial systems, strict consistencyWhen SQL is betterWhen strict ACID transactions and absolute data integrity across multiple tables are mandatory (e.g., banking).7. Role in a Polyglot Persistence ArchitectureIn modern software engineering, Polyglot Persistence means using the right database for the right job instead of forcing everything into one single database type.Where MongoDB fits: It acts as the primary database for user profiles, product catalogs, and content management where flexibility and speed are key.Coexistence: It can easily coexist with a relational database (like PostgreSQL) in the same system—where SQL handles strict financial transactions and user checkouts, while MongoDB handles the flexible product inventory and user dashboard data.
+Research Summary: Document Data Model (MongoDB)
+
+1. What is the Document Model and Why Does It Exist?
+
+The Document Data Model is a non-relational (NoSQL) database design that stores data as flexible, self-contained documents rather than rigid tables and rows. Typically, these documents are formatted in JSON-like structures (or BSON in MongoDB).
+
+We use document databases because modern applications handle complex, fast-changing data that doesn't always fit neatly into traditional rows and columns. It allows developers to build and scale applications faster by matching how data is represented in application code (like objects in JavaScript or Python) without needing complex table schemas.
+
+2. How is Data Represented? (Building Blocks)
+
+Unlike relational databases, document databases organize data using a different terminology and structure:
+
+Collection: Equivalent to a relational database "Table".
+
+Document: Equivalent to a relational database "Row" (each document can have its own unique fields).
+
+Field: Equivalent to a "Column/Value pair".
+
+Core Concept: Embedding vs. Referencing
+
+One of the most important concepts in document databases is how we handle relationships:
+
+Embedding (Nested Documents): Instead of spreading related data across multiple tables, we embed related information directly inside the main document (e.g., storing a user's address and profile list directly inside the user document). This makes read operations extremely fast because everything is fetched in a single query.
+
+Referencing: Storing references (IDs) to other documents when data is shared or too large, similar to traditional foreign keys.
+
+3. Basic CRUD Operations & MongoDB Features
+
+To interact with MongoDB, applications perform basic operations known as CRUD:
+
+Create: Inserting new documents into a collection (e.g., insert_one()).
+
+Read: Querying documents based on specific fields, including nested data (e.g., find() or find_one()).
+
+Update: Modifying existing documents or adding new elements to arrays inside documents (e.g., update_one()).
+
+Delete: Removing documents that are no longer needed (e.g., delete_one()).
+
+Distinctive Feature Explored in our POC:
+We utilized Nested Documents and Arrays, which allowed us to store complex structures (like user skills and profiles) inside a single document and query them efficiently without using SQL JOIN operations.
+
+4. Strengths and Typical Use Cases
+
+Flexible Schema: You can easily add or change fields without running a database migration.
+
+High Performance for Reads: Because related data is embedded together, retrieving a full record requires a single fast lookup.
+
+Best Use Cases: Perfect for Content Management Systems (CMS), e-commerce product catalogs, user profiles, and real-time analytics where data structures evolve frequently.
+
+5. Trade-offs and Limitations
+
+Lack of Strict Relationships: MongoDB does not enforce foreign key constraints automatically like SQL, meaning data consistency must be managed carefully by the application.
+
+Data Duplication: Embedding data can lead to duplicated information across documents, increasing storage usage if not designed properly.
+
+Complex Transactions: While MongoDB supports multi-document transactions, complex relational joins and heavy analytical queries are generally more difficult and less efficient than in relational databases.
+
+6. Comparison with Relational Databases (SQL)
+
+Feature
+
+Document Model (MongoDB)
+
+Relational Model (SQL)
+
+Structure
+
+Flexible (Schema-less)
+
+Rigid (Strict Tables & Schema)
+
+Relationships
+
+Embedded documents or references
+
+Foreign keys and JOIN operations
+
+Best For
+
+Rapid development, changing data, fast reads
+
+Complex transactions, financial systems, strict consistency
+
+When SQL is better
+
+When strict ACID transactions and absolute data integrity across multiple tables are mandatory (e.g., banking).
+
+
+
+7. Role in a Polyglot Persistence Architecture
+
+In modern software engineering, Polyglot Persistence means using the right database for the right job instead of forcing everything into one single database type.
+
+Where MongoDB fits: It acts as the primary database for user profiles, product catalogs, and content management where flexibility and speed are key.
+
+Coexistence: It can easily coexist with a relational database (like PostgreSQL) in the same system—where SQL handles strict financial transactions and user checkouts, while MongoDB handles the flexible product inventory and user dashboard data.
